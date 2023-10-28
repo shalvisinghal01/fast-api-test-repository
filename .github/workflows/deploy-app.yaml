@@ -1,0 +1,30 @@
+name: Deploy FastAPI to Google App Engine
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Deploy to Google App Engine
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+        run: |
+          gcloud auth activate-service-account --key-file <(echo $GCP_SA_KEY)
+          gcloud config set project your-project-id
+          gcloud app deploy app.yaml --quiet
