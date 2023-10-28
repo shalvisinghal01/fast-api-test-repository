@@ -23,8 +23,9 @@ jobs:
 
       - name: Deploy to Google App Engine
         env:
-          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          PROJECT_ID: ${{secrets.PROJECT_ID}}
+          GCP_SA_KEY: ${{ secrets.SERVICE_ACCOUNT }}
         run: |
           gcloud auth activate-service-account --key-file <(echo $GCP_SA_KEY)
-          gcloud config set project your-project-id
+          gcloud config set project $PROJECT_ID
           gcloud app deploy app.yaml --quiet
