@@ -46,4 +46,4 @@ def get_file_from_gcs():
     # Serve the file as a response
     # response = FileResponse(blob.download_as_bytes(), filename='your-file-name.extension')
 
-    return "ok"
+    return blob.path
