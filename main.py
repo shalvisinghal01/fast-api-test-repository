@@ -4,7 +4,6 @@ from fastapi import FastAPI
 
 from google.cloud import storage
 from fastapi.responses import FileResponse
-import os
 
 # Set the path to your GCP service account key JSON file
 # key_path = '/home/shalvi27/Downloads/databases-401308-2257e3901842.json'
@@ -39,11 +38,13 @@ def get_file_from_gcs():
     print("line------34")
     blob = bucket.blob(file_path)
     print("line------35")
-    print(blob.name)
-    print(blob.path)
+    model_checkpoint_content = blob.download_as_text()
+    # print(model_checkpoint_content)
+    # print(blob.name)
+    # print(blob.path)
     # file_content = blob.download_as_string()
     # print(file_content)
     # Serve the file as a response
     # response = FileResponse(blob.download_as_bytes(), filename='your-file-name.extension')
 
-    return blob.path
+    return model_checkpoint_content
